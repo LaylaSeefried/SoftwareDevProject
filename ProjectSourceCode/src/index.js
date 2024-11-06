@@ -87,7 +87,6 @@ app.get('/register', (req, res) => {
     res.render('pages/register');
 });
 
-
 app.post('/register', async (req, res) => {
   //hash the password using bcrypt library
   const hash = await bcrypt.hash(req.body.password, 10);
