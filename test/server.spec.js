@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // ********************** Initialize server **********************************
 
 const server = require('../index.js'); //TODO: Make sure the path to your index.js is correctly added
@@ -72,5 +72,4 @@ describe('Testing Add User API', () => {
         done();
       });
   });
-=======
->>>>>>> 991bf6a4b4f9365ada54f1bea6e737ad6a606132
+
