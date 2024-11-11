@@ -136,7 +136,7 @@ app.post('/login', async (req, res) => {
       //save user details in session like in lab 7
       req.session.user = username;
       req.session.save();
-      res.redirect("/discover");
+      res.redirect("/home");
     }
     else{
       res.redirect("/login");
@@ -151,6 +151,12 @@ app.post('/login', async (req, res) => {
   }
 
 
+});
+
+app.get('/home', (req, res) => {
+  res.render('pages/home', {
+
+  });
 });
 
 // Authentication Middleware.
