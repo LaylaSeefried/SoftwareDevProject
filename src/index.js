@@ -179,11 +179,7 @@ app.get('/logout', (req, res) => {
 
 });
 
-
-
-
-
-//discover
+//search bar implementation
 
 
 // *****************************************************
