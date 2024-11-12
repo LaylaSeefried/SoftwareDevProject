@@ -184,6 +184,21 @@ app.get('/logout', (req, res) => {
 });
 
 //search bar implementation
+app.get('/api/class-search', async (req, res) => {
+    const searchTerm = req.query.q;
+    try {
+        const result = await db.query(
+            `SELECT * FROM courses
+             WHERE course_name ILIKE $1 OR course_id::text LIKE $1`,
+            [`%${searchTerm}%`]
+        );
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
 
 
 // *****************************************************

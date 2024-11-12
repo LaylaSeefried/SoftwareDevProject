@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdown.innerHTML = ''; // Clear existing results
         results.forEach(result => {
             const item = document.createElement('div');
-            item.textContent = result.name;
+            item.textContent = `${result.course_id} - ${result.course_name}`; // Display course_id and course_name
             dropdown.appendChild(item);
         });
         dropdown.style.display = 'block';
