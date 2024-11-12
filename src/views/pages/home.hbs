@@ -1,36 +1,44 @@
 <div class="container">
     <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" id="class-search" placeholder="Search a class" autocomplete="off">
-        <!-- Dropdown for suggestions as you type -->
-        <div id="search-dropdown" style="display: none;">
-            <!-- Search suggestions will appear here -->
-        </div>
+    <div class="search-container mb-4">
+        <input type="text" id="class-search" class="form-control" placeholder="Search a class" autocomplete="off">
     </div>
 
-    <!-- Main Content Layout -->
-    <div class="content-layout">
+    <!-- Main Content Layout with Bootstrap Grid -->
+    <div class="row">
         <!-- Current Study Buddies Column -->
-        <div class="column study-buddies">
-            <h3>Current Study Buddies</h3>
-            <div class="buddy-list">
-                <!-- Current study buddies will be displayed here -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Current Study Buddies</h3>
+                    <div class="buddy-list">
+                        <!-- Current study buddies will be displayed here -->
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Suggested Study Buddies Column -->
-        <div class="column suggested-buddies">
-            <h3>Suggested Study Buddies</h3>
-            <div class="suggested-list">
-                <!-- Suggested study buddies will be displayed here -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Suggested Study Buddies</h3>
+                    <div class="suggested-list">
+                        <!-- Suggested study buddies will be displayed here -->
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Incoming Requests Column -->
-        <div class="column incoming-requests">
-            <h3>Incoming Requests</h3>
-            <div class="request-list">
-                <!-- Incoming requests will be displayed here -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Incoming Requests</h3>
+                    <div class="request-list">
+                        <!-- Incoming requests will be displayed here -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
