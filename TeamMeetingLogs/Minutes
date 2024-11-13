@@ -1,5 +1,3 @@
-Week 1 Minutes:
-
 10/30/24
 4:15
 
@@ -17,7 +15,6 @@ Follow-up:
   - Have a plan for following week
 
 
-Week 2 Minutes:
 
 11/7/24
 5:30
@@ -36,3 +33,25 @@ Follow up:
     - Login 
     - Register
     - Profile
+
+
+
+11/12/2024
+5:00 pm
+
+Decisions Made:
+- UI is basically set up for now, style changes to be made accordingly
+- Worked together to set up create.sql
+- Worked together to set up insert.sql with some dummy data to test functionality as we move forward.
+
+Follow-up:
+- Have insert.sql and create.sql complete
+- Layla:
+    - Search bar function on home page
+    - Continue working on styling (aesthetics)
+- Matt:
+    - **having computer issues, will update once docker is working for him
+    - Connect course page template to database to show different courses
+- Nathan:
+    - Finish profile page
+    - Fix login and register
