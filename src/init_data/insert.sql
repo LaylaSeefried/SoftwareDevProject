@@ -25,19 +25,20 @@ VALUES
   (4448, 'Object-Oriented Analysis and Design', 3, 'abcabc'),
   (4502, 'Data Mining', 3, 'abcabc');
 
-  -- Inserting sample data into users table
-INSERT INTO users (username, password)
+-- Inserting sample data into users table with bios, year, and major
+INSERT INTO users (username, password, bio, year, major)
 VALUES
-  ('johndoe', 'password1'),
-  ('janedoe', 'password2'),
-  ('alice', 'password3'),
-  ('bob', 'password4'),
-  ('charlie', 'password5'),
-  ('david', 'password6'),
-  ('eve', 'password7'),
-  ('frank', 'password8'),
-  ('grace', 'password9'),
-  ('heidi', 'password10');
+  ('johndoe', 'password1', 'A computer science enthusiast who loves algorithms and data structures.', 'junior', 'Computer Science'),
+  ('janedoe', 'password2', 'Aspiring software engineer with a passion for artificial intelligence.', 'senior', 'Software Engineering'),
+  ('alice', 'password3', 'Web developer focusing on front-end technologies and user experience.', 'sophomore', 'Information Technology'),
+  ('bob', 'password4', 'Cybersecurity specialist with a love for cryptography.', 'graduate', 'Cybersecurity'),
+  ('charlie', 'password5', 'Database administrator skilled in SQL and data modeling.', 'junior', 'Data Science'),
+  ('david', 'password6', 'Back-end developer passionate about API design and server architecture.', 'freshman', 'Computer Engineering'),
+  ('eve', 'password7', 'Machine learning enthusiast currently working on NLP projects.', 'senior', 'Artificial Intelligence'),
+  ('frank', 'password8', 'Software engineering student exploring full-stack development.', 'junior', 'Software Development'),
+  ('grace', 'password9', 'Data analyst interested in data visualization and big data technologies.', 'sophomore', 'Data Analytics'),
+  ('heidi', 'password10', 'Cloud computing specialist with experience in AWS and Azure.', 'graduate', 'Cloud Computing');
+
 
 -- Enrolling students in courses in student_courses table
 INSERT INTO student_courses (course_id, student_id)

@@ -1,7 +1,10 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     username VARCHAR(50) PRIMARY KEY,
-    password CHAR(60) NOT NULL
+    password CHAR(60) NOT NULL,
+    bio TEXT,
+    year VARCHAR(10) CHECK (year IN ('freshman', 'sophomore', 'junior', 'senior', 'graduate')), -- Constraint to limit values
+    major VARCHAR(100)
 );
 
 DROP TABLE IF EXISTS courses;
