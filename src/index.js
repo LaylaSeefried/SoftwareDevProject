@@ -163,6 +163,12 @@ app.get('/home', (req, res) => {
   });
 });
 
+app.get('/course', (req, res) => {
+  res.render('pages/course', {
+
+  });
+});
+
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
