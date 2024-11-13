@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Full-Page Profile Container */
+        .profile-container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        /* Profile Header */
+        .profile-container .profile-header {
+            background-color: #4f46e5;
+            color: white;
+            padding: 20px;
+        }
+
+        /* Profile Image */
+        .profile-container .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 10px 0;
+            border: 4px solid white;
+        }
+
+        /* Profile Info */
+        .profile-container .profile-info {
+            padding: 20px;
+        }
+
+        .profile-container .profile-info h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .profile-container .profile-info p {
+            font-size: 14px;
+            color: #777;
+            margin: 10px 0;
+        }
+
+        /* Profile Stats */
+        .profile-container .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .profile-container .stat {
+            text-align: center;
+        }
+
+        .profile-container .stat h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .profile-container .stat p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Button */
+        .profile-container .edit-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #4f46e5;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .profile-container .edit-button:hover {
+            background-color: #3b3bcf;
+        }
+
+        /* Edit Form Hidden by Default */
+        .edit-form {
+            display: none;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-image">
+            <h1 id="profileNameDisplay">Jane Doe</h1>
+            <p id="profileOccupationDisplay">Student at XYZ University</p>
+        </div>
+
+        <div class="profile-info">
+            <h2>About Me</h2>
+            <p id="profileAboutDisplay">Hi! I'm Jane, a passionate learner and a member of the study circle. I love exploring new subjects and collaborating with others to gain deeper insights.</p>
+        </div>
+
+        <div class="profile-stats">
+            <div class="stat">
+                <h3>12</h3>
+                <p>Study Sessions</p>
+            </div>
+            <div class="stat">
+                <h3>24</h3>
+                <p>Completed Lessons</p>
+            </div>
+            <div class="stat">
+                <h3>5</h3>
+                <p>Subjects</p>
+            </div>
+        </div>
+
+        <!-- Edit Profile Button -->
+        <button class="edit-button" onclick="toggleEditForm()">Edit Profile</button>
+
+        <!-- Edit Profile Form -->
+        <div class="edit-form" id="editForm">
+            <h3>Edit Profile Information</h3>
+            <form onsubmit="saveChanges(event)">
+                <div class="form-group">
+                    <label for="profileName">Name</label>
+                    <input type="text" class="form-control" id="profileName" placeholder="Enter your name" value="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="profileOccupation">Occupation</label>
+                    <input type="text" class="form-control" id="profileOccupation" placeholder="Enter your occupation" value="Student at XYZ University">
+                </div>
+                <div class="form-group">
+                    <label for="profileAbout">About Me</label>
+                    <textarea class="form-control" id="profileAbout" rows="3">Hi! I'm Jane, a passionate learner and a member of the study circle. I love exploring new subjects and collaborating with others to gain deeper insights.</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Optional Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript to Toggle Edit Form and Save Changes in Local Storage -->
+    <script>
+        // Load stored profile data on page load
+        window.onload = function() {
+            if (localStorage.getItem('profileName')) {
+                document.getElementById('profileNameDisplay').textContent = localStorage.getItem('profileName');
+                document.getElementById('profileOccupationDisplay').textContent = localStorage.getItem('profileOccupation');
+                document.getElementById('profileAboutDisplay').textContent = localStorage.getItem('profileAbout');
+            }
+        }
+
+        function toggleEditForm() {
+            var editForm = document.getElementById('editForm');
+            editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function saveChanges(event) {
+            event.preventDefault(); // Prevents form from refreshing the page
+
+            // Retrieve values from form inputs
+            var name = document.getElementById('profileName').value;
+            var occupation = document.getElementById('profileOccupation').value;
+            var about = document.getElementById('profileAbout').value;
+
+            // Update the profile display with new values
+            document.getElementById('profileNameDisplay').textContent = name;
+            document.getElementById('profileOccupationDisplay').textContent = occupation;
+            document.getElementById('profileAboutDisplay').textContent = about;
+
+            // Store values in localStorage to persist across page reloads
+            localStorage.setItem('profileName', name);
+            localStorage.setItem('profileOccupation', occupation);
+            localStorage.setItem('profileAbout', about);
+
+            // Hide the edit form after saving
+            toggleEditForm();
+        }
+    </script>
+
+</body>
+</html>

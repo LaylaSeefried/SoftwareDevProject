@@ -156,6 +156,17 @@ app.post('/login', async (req, res) => {
 
 
 });
+// Authentication Middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
+};
+
+app.use(auth);
+
 
 app.get('/home', (req, res) => {
   res.render('pages/home', {
@@ -169,18 +180,16 @@ app.get('/course', (req, res) => {
   });
 });
 
-// Authentication Middleware.
-const auth = (req, res, next) => {
-  if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
-  }
-  next();
-};
+app.get('/profile', (req, res) => {
+  res.render('pages/profile', {
+
+  });
+});
+
 
 
 // Authentication Required
-app.use(auth);
+
 
 
 app.get('/logout', (req, res) => {
