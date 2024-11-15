@@ -91,11 +91,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+    res.render('pages/login', { customNavbar: true });
 });
 
+
 app.get('/register', (req, res) => {
-    res.render('pages/register');
+    res.render('pages/register', { customNavbar: true });
 });
 
 app.post('/register', async (req, res) => {
@@ -157,11 +158,6 @@ app.post('/login', async (req, res) => {
 
 });
 
-app.get('/home', (req, res) => {
-  res.render('pages/home', {
-
-  });
-});
 
 // Authentication Middleware.
 const auth = (req, res, next) => {
@@ -172,9 +168,31 @@ const auth = (req, res, next) => {
   next();
 };
 
+app.use(auth);
+
+
+app.get('/home', (req, res) => {
+  res.render('pages/home', {
+
+  });
+});
+
+app.get('/course', (req, res) => {
+  res.render('pages/course', {
+
+  });
+});
+
+app.get('/profile', (req, res) => {
+  res.render('pages/profile', {
+
+  });
+});
+
+
 
 // Authentication Required
-app.use(auth);
+
 
 
 app.get('/logout', (req, res) => {
