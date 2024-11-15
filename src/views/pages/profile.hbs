@@ -7,7 +7,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Full-Page Profile Container */
         .profile-container {
             background-color: #fff;
             width: 100%;
@@ -21,15 +20,13 @@
             padding-bottom: 20px;
         }
 
-        /* Profile Header */
-        .profile-container .profile-header {
+        .profile-header {
             background-color: #4f46e5;
             color: white;
             padding: 20px;
         }
 
-        /* Profile Image */
-        .profile-container .profile-image {
+        .profile-image {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -37,47 +34,46 @@
             border: 4px solid white;
         }
 
-        /* Profile Info */
-        .profile-container .profile-info {
+        .profile-info {
             padding: 20px;
         }
 
-        .profile-container .profile-info h2 {
+        .profile-info h2 {
             font-size: 24px;
             color: #333;
         }
 
-        .profile-container .profile-info p {
+        .profile-info p {
             font-size: 14px;
             color: #777;
             margin: 10px 0;
         }
 
-        /* Profile Stats */
-        .profile-container .profile-stats {
-            display: flex;
-            justify-content: space-around;
+        .profile-stats {
+            display: flex; /* Display sections in a row */
+            justify-content: space-around; /* Spread out sections evenly */
+            text-align: center; /* Center the text inside each section */
             padding: 20px;
             background-color: #f9fafb;
             border-top: 1px solid #e5e7eb;
         }
 
-        .profile-container .stat {
-            text-align: center;
+        .stat {
+            flex: 1; /* Ensure equal width for each section */
         }
 
-        .profile-container .stat h3 {
+
+        .profile-stats .stat h3 {
             font-size: 18px;
             color: #333;
         }
 
-        .profile-container .stat p {
+        .profile-stats .stat p {
             font-size: 14px;
             color: #555;
         }
 
-        /* Button */
-        .profile-container .edit-button {
+        .edit-button {
             display: inline-block;
             margin: 20px 0;
             padding: 10px 20px;
@@ -89,11 +85,10 @@
             cursor: pointer;
         }
 
-        .profile-container .edit-button:hover {
+        .edit-button:hover {
             background-color: #3b3bcf;
         }
 
-        /* Edit Form Hidden by Default */
         .edit-form {
             display: none;
             padding: 20px;
@@ -109,8 +104,7 @@
     <div class="profile-container">
         <div class="profile-header">
             <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-image">
-            <h1 id="profileNameDisplay">Jane Doe</h1>
-            <p id="profileOccupationDisplay">Student at XYZ University</p>
+            <h1 id="profileNameDisplay">First name, Last Name</h1>
         </div>
 
         <div class="profile-info">
@@ -120,16 +114,18 @@
 
         <div class="profile-stats">
             <div class="stat">
-                <h3>12</h3>
-                <p>Study Sessions</p>
+                <p>Year</p>
+                <h3 id="profileYearDisplay">--</h3>
             </div>
             <div class="stat">
-                <h3>24</h3>
-                <p>Completed Lessons</p>
+                <p>Major</p>
+                <h3 id="profileMajorDisplay">--</h3>
             </div>
             <div class="stat">
-                <h3>5</h3>
-                <p>Subjects</p>
+                <p>Courses</p>
+                <ul id="profileCoursesDisplay">
+                    <li>--</li>
+                </ul>
             </div>
         </div>
 
@@ -142,15 +138,23 @@
             <form onsubmit="saveChanges(event)">
                 <div class="form-group">
                     <label for="profileName">Name</label>
-                    <input type="text" class="form-control" id="profileName" placeholder="Enter your name" value="Jane Doe">
-                </div>
-                <div class="form-group">
-                    <label for="profileOccupation">Occupation</label>
-                    <input type="text" class="form-control" id="profileOccupation" placeholder="Enter your occupation" value="Student at XYZ University">
+                    <input type="text" class="form-control" id="profileName" placeholder="Enter your name" value="">
                 </div>
                 <div class="form-group">
                     <label for="profileAbout">About Me</label>
                     <textarea class="form-control" id="profileAbout" rows="3">Hi! I'm Jane, a passionate learner and a member of the study circle. I love exploring new subjects and collaborating with others to gain deeper insights.</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="profileYear">Year</label>
+                    <input type="text" class="form-control" id="profileYear" placeholder="Enter your year">
+                </div>
+                <div class="form-group">
+                    <label for="profileMajor">Major</label>
+                    <input type="text" class="form-control" id="profileMajor" placeholder="Enter your major">
+                </div>
+                <div class="form-group">
+                    <label for="profileCourses">Courses (comma-separated)</label>
+                    <input type="text" class="form-control" id="profileCourses" placeholder="Enter your courses">
                 </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
@@ -161,14 +165,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- JavaScript to Toggle Edit Form and Save Changes in Local Storage -->
+    <!-- JavaScript to Toggle Edit Form and Save Changes -->
     <script>
         // Load stored profile data on page load
         window.onload = function() {
             if (localStorage.getItem('profileName')) {
                 document.getElementById('profileNameDisplay').textContent = localStorage.getItem('profileName');
-                document.getElementById('profileOccupationDisplay').textContent = localStorage.getItem('profileOccupation');
                 document.getElementById('profileAboutDisplay').textContent = localStorage.getItem('profileAbout');
+                document.getElementById('profileYearDisplay').textContent = localStorage.getItem('profileYear');
+                document.getElementById('profileMajorDisplay').textContent = localStorage.getItem('profileMajor');
+                const courses = localStorage.getItem('profileCourses') ? localStorage.getItem('profileCourses').split(',') : ['--'];
+                const coursesList = document.getElementById('profileCoursesDisplay');
+                coursesList.innerHTML = '';
+                courses.forEach(course => {
+                    const li = document.createElement('li');
+                    li.textContent = course.trim();
+                    coursesList.appendChild(li);
+                });
             }
         }
 
@@ -182,18 +195,31 @@
 
             // Retrieve values from form inputs
             var name = document.getElementById('profileName').value;
-            var occupation = document.getElementById('profileOccupation').value;
             var about = document.getElementById('profileAbout').value;
+            var year = document.getElementById('profileYear').value;
+            var major = document.getElementById('profileMajor').value;
+            var courses = document.getElementById('profileCourses').value;
 
             // Update the profile display with new values
             document.getElementById('profileNameDisplay').textContent = name;
-            document.getElementById('profileOccupationDisplay').textContent = occupation;
             document.getElementById('profileAboutDisplay').textContent = about;
+            document.getElementById('profileYearDisplay').textContent = year;
+            document.getElementById('profileMajorDisplay').textContent = major;
+
+            const coursesList = document.getElementById('profileCoursesDisplay');
+            coursesList.innerHTML = '';
+            courses.split(',').forEach(course => {
+                const li = document.createElement('li');
+                li.textContent = course.trim();
+                coursesList.appendChild(li);
+            });
 
             // Store values in localStorage to persist across page reloads
             localStorage.setItem('profileName', name);
-            localStorage.setItem('profileOccupation', occupation);
             localStorage.setItem('profileAbout', about);
+            localStorage.setItem('profileYear', year);
+            localStorage.setItem('profileMajor', major);
+            localStorage.setItem('profileCourses', courses);
 
             // Hide the edit form after saving
             toggleEditForm();
