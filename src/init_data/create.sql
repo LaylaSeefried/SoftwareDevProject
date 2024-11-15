@@ -17,7 +17,9 @@ CREATE TABLE courses (
 
 DROP TABLE IF EXISTS student_courses;
 CREATE TABLE student_courses (
-  course_id INTEGER NOT NULL REFERENCES courses (course_id),
-  username VARCHAR(50) NOT NULL REFERENCES users (username),
-  PRIMARY KEY (course_id, username)
+    course_id INT NOT NULL,
+    student_id VARCHAR(50) NOT NULL, -- Match this to the length of `username`
+    PRIMARY KEY (course_id, student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES users(username) ON DELETE CASCADE -- Reference `users(username)`
 );
