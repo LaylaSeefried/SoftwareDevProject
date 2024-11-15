@@ -9,10 +9,10 @@ CREATE TABLE users (
 
 DROP TABLE IF EXISTS courses;
 CREATE TABLE courses (
-  course_id NUMERIC PRIMARY KEY,
-  course_name VARCHAR(100) NOT NULL,
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(255) NOT NULL,
   credit_hours NUMERIC NOT NULL,
-  course_description VARCHAR(100) NOT NULL
+  course_description TEXT
 );
 
 DROP TABLE IF EXISTS student_courses;
