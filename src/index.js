@@ -91,11 +91,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+    res.render('pages/login', { customNavbar: true });
 });
 
+
 app.get('/register', (req, res) => {
-    res.render('pages/register');
+    res.render('pages/register', { customNavbar: true });
 });
 
 app.post('/register', async (req, res) => {
@@ -156,6 +157,8 @@ app.post('/login', async (req, res) => {
 
 
 });
+
+
 // Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
