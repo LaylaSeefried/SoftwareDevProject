@@ -42,7 +42,7 @@ VALUES
 
 
 -- Enrolling students in courses in student_courses table
-INSERT INTO student_courses (course_id, student_id)
+INSERT INTO student_courses (course_id, username)
 VALUES
   (1000, 'johndoe'),
   (1300, 'johndoe'),

@@ -17,7 +17,7 @@ body {
 
 /* Navbar */
 .navbar {
-    background-color: #C7BD71; /*CU yellow :)*/
+    background-color: #C7BD71; /* CU yellow */
     color: white;
 }
 
@@ -57,6 +57,7 @@ body {
 /* Search Bar */
 .search-container {
     margin-bottom: 1rem;
+    position: relative; /* To position dropdown correctly */
 }
 
 #class-search {
@@ -64,6 +65,32 @@ body {
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+/* Search Dropdown */
+#search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px; /* Limit height for scrolling */
+    overflow-y: auto;
+    z-index: 1000; /* Ensure it appears above other elements */
+    display: none; /* Initially hidden */
+}
+
+#search-dropdown .dropdown-item {
+    padding: 0.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#search-dropdown .dropdown-item:hover {
+    background: #f0f0f0;
 }
 
 /* Footer */

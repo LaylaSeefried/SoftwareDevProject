@@ -12,7 +12,7 @@ CREATE TABLE courses (
   course_id NUMERIC PRIMARY KEY,
   course_name VARCHAR(100) NOT NULL,
   credit_hours NUMERIC NOT NULL,
-  course_description VARCHAR(100) NOT NULL
+  course_description VARCHAR(800) NOT NULL
 );
 
 DROP TABLE IF EXISTS student_courses;
