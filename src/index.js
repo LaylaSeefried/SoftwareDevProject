@@ -78,13 +78,10 @@ app.use(
 // <!-- Section 4 : API Routes -->
 // *****************************************************
 
-// TODO - Include your API routes here
-
-//dummy API
+// Dummy API
 app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+    res.json({ status: 'success', message: 'Welcome!' });
 });
-
 
 app.get('/', (req, res) => {
     res.redirect('pages/login');
@@ -94,120 +91,94 @@ app.get('/login', (req, res) => {
     res.render('pages/login', { customNavbar: true });
 });
 
-
 app.get('/register', (req, res) => {
     res.render('pages/register', { customNavbar: true });
 });
 
 app.post('/register', async (req, res) => {
-  //hash the password using bcrypt library
-  const hash = await bcrypt.hash(req.body.password, 10);
-  const username = req.body.username;
-  // To-DO: Insert username and hashed password into the 'users' table
-  const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
+    const hash = await bcrypt.hash(req.body.password, 10);
+    const username = req.body.username;
+    const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
 
-
-  // get the student_id based on the emailid
-  db.one(query, [username, hash])
-    .then(data => {
-
-      res.redirect('/login');
-      console.log("Registered User with Password: ", data);
-    })
-    .catch(err => {
-      console.log(err);
-      res.redirect('/register');
-    });
-
+    db.one(query, [username, hash])
+        .then(data => {
+            res.redirect('/login');
+            console.log("Registered User with Password: ", data);
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/register');
+        });
 });
 
 app.post('/login', async (req, res) => {
-  const query = "SELECT * FROM users where username = $1";
-  const username = req.body.username;
-  const password = req.body.password;
+    const query = "SELECT * FROM users where username = $1";
+    const username = req.body.username;
+    const password = req.body.password;
 
-  try {
-    const user = await db.one(
-      query, [username]
-    )
-    console.log("Retrieved User: ", user)
-    // check if password from request matches with password in DB
-    const match = await bcrypt.compare(password, user.password);
-    console.log(match);
-    console.log(user);
-    if (match)
-    {
-      
-      //save user details in session like in lab 7
-      req.session.user = username;
-      req.session.save();
-      res.redirect("/home");
+    try {
+        const user = await db.one(query, [username]);
+        const match = await bcrypt.compare(password, user.password);
+
+        if (match) {
+            req.session.user = username;
+            req.session.save();
+            res.redirect("/home");
+        } else {
+            res.redirect("/login");
+        }
+    } catch (error) {
+        res.redirect("/register");
+        console.log(error);
     }
-    else{
-      res.redirect("/login");
-    }
-    
-  }
-
-  catch(error){
-    res.redirect("/register");
-    console.log(error)
-    
-  }
-
-
 });
 
-
-// Authentication Middleware.
+// Authentication Middleware
 const auth = (req, res, next) => {
-  if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
-  }
-  next();
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
 };
-
 app.use(auth);
 
-
 app.get('/home', (req, res) => {
-  res.render('pages/home', {
-
-  });
+    res.render('pages/home', {});
 });
 
 app.get('/course', (req, res) => {
-  res.render('pages/course', {
-
-  });
+    res.render('pages/course', {});
 });
 
 app.get('/profile', (req, res) => {
-  res.render('pages/profile', {
-
-  });
+    res.render('pages/profile', {});
 });
-
-
-
-// Authentication Required
-
-
 
 app.get('/logout', (req, res) => {
-  res.render('pages/logout');
-  req.session.destroy();
-
+    res.render('pages/logout');
+    req.session.destroy();
 });
 
-//search bar implementation
-
+// API Route for Class Search
+app.get('/api/class-search', async (req, res) => {
+    const searchTerm = req.query.q;
+    try {
+        const result = await db.query(
+            `SELECT * FROM courses
+             WHERE course_name ILIKE $1 OR course_id::text LIKE $1`,
+            [`%${searchTerm}%`]
+        );
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
 
 // *****************************************************
-// <!-- Section 5 : Start Server-->
+// <!-- Section 5 : Start Server -->
 // *****************************************************
-// starting the server and keeping the connection open to listen for more requests
 module.exports = app.listen(3000);
 console.log('Server is listening on port 3000');
+
 
