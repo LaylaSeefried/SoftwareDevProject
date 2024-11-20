@@ -83,8 +83,9 @@ app.get('/welcome', (req, res) => {
     res.json({ status: 'success', message: 'Welcome!' });
 });
 
+// Public Routes
 app.get('/', (req, res) => {
-    res.redirect('pages/login');
+    res.redirect('/login');
 });
 
 app.get('/login', (req, res) => {
@@ -112,26 +113,44 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    const query = "SELECT * FROM users where username = $1";
+    const query = "SELECT * FROM users WHERE username = $1";
     const username = req.body.username;
     const password = req.body.password;
 
     try {
+        // Fetch user by username
         const user = await db.one(query, [username]);
+
+        // Compare password
         const match = await bcrypt.compare(password, user.password);
 
         if (match) {
+            // Successful login
             req.session.user = username;
-            req.session.save();
-            res.redirect("/home");
+            req.session.save(() => {
+                res.redirect("/home");
+            });
         } else {
-            res.redirect("/login");
+            // Password mismatch
+            res.render('pages/login', {
+                customNavbar: true,
+                errorMessage: 'Password does not match the username. Please try again or register.',
+            });
         }
     } catch (error) {
-        res.redirect("/register");
-        console.log(error);
+        // Handle database query errors (e.g., username not found)
+        if (error.message.includes('No data returned from the query')) {
+            res.render('pages/login', {
+                customNavbar: true,
+                errorMessage: 'Invalid username. Please try again or register.',
+            });
+        } else {
+            console.error("Login error:", error);
+            res.status(500).send("Server error");
+        }
     }
 });
+
 
 // Authentication Middleware
 const auth = (req, res, next) => {
@@ -140,23 +159,23 @@ const auth = (req, res, next) => {
     }
     next();
 };
-app.use(auth);
 
-app.get('/home', (req, res) => {
+// Protected Routes (use `auth` middleware here)
+app.get('/home', auth, (req, res) => {
     res.render('pages/home', {});
 });
 
-app.get('/course', (req, res) => {
+app.get('/course', auth, (req, res) => {
     res.render('pages/course', {});
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile', auth, (req, res) => {
     res.render('pages/profile', {});
 });
 
 app.get('/logout', (req, res) => {
-    res.render('pages/logout');
-    req.session.destroy();
+    req.session.destroy(); // Destroy the session
+    res.redirect('/login'); // Redirect to login page
 });
 
 // API Route for Class Search
@@ -174,6 +193,7 @@ app.get('/api/class-search', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 
 // *****************************************************
 // <!-- Section 5 : Start Server -->
