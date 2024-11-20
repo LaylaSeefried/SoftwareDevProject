@@ -158,28 +158,64 @@ app.post('/login', async (req, res) => {
 });
 
 
-// Authentication Middleware.
-const auth = (req, res, next) => {
-  if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
-  }
-  next();
-};
-
-app.use(auth);
-
-
 app.get('/home', (req, res) => {
   res.render('pages/home', {
 
   });
 });
 
-app.get('/course', (req, res) => {
-  res.render('pages/course', {
+// app.get('/course', async (req, res) => {
+//   const courseID = req.query.course_id;
+//   res.render('pages/course', {
+//     courses: {
 
-  });
+//     }
+//   });
+// });
+
+// Route for course page
+app.get('/course', async (req, res) => {
+  try {
+    const courseId = req.body.course_id;
+
+    // Query course details
+    const courseQuery = `
+      SELECT course_name, course_description 
+      FROM courses 
+      WHERE course_id = $1
+    `;
+    const courseResult = await pool.query(courseQuery, [courseId]);
+
+    if (courseResult.rows.length === 0) {
+      return res.status(404).send('Course not found');
+    }
+
+    const course = courseResult.rows[0];
+
+    // Query enrolled students
+    const studentsQuery = `
+      SELECT username 
+      FROM user_courses 
+      WHERE course_id = $1
+    `;
+    const studentsResult = await pool.query(studentsQuery, [courseId]);
+    const students = studentsResult.rows.map(row => row.username);
+
+    // Render the course page with the data
+    res.render('pages/course', {
+      courses: {
+        course_name: course.course_name,
+        course_description: course.course_description,
+      },
+      users: {
+        username: students,
+      },
+    });
+  } 
+  catch (error) {
+    console.error('Error fetching course data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.get('/profile', (req, res) => {
@@ -191,7 +227,16 @@ app.get('/profile', (req, res) => {
 
 
 // Authentication Required
+// Authentication Middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
+};
 
+app.use(auth);
 
 
 app.get('/logout', (req, res) => {
