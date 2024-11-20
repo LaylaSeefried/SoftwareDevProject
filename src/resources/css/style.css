@@ -166,6 +166,63 @@ body {
     background: #f0f0f0;
 }
 
+
+/* Adjust the search bar width */
+.wide-search-bar {
+    width: 100%;
+    max-width: 100%; /* Prevents shrinking inside the column */
+}
+
+/* Adjust column sizes for layout */
+.col-lg-5 {
+    flex: 0 0 40%; /* Wider search bar */
+    max-width: 40%;
+}
+
+.col-lg-2 {
+    flex: 0 0 20%; /* Narrower columns for study buddies and incoming requests */
+    max-width: 20%;
+}
+
+.col-lg-3 {
+    flex: 0 0 30%; /* Medium-sized column for incoming requests */
+    max-width: 30%;
+}
+
+/* Card container alignment */
+.card {
+    display: flex;
+    flex-direction: column; /* Keep column structure for content */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100%; /* Ensure the card takes the full height of the container */
+    text-align: center; /* Center-align text */
+}
+
+/* Card titles */
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Align columns in a single row */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 1rem; /* Add spacing between columns */
+}
+
+/* Center the columns as a group */
+.container {
+    max-width: 1200px; /* Set maximum container width */
+    margin: 0 auto; /* Center container horizontally */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 /* Footer */
 footer {
     background-color: #C7BD71;
@@ -197,7 +254,7 @@ footer {
 /* Profile Header */
 .profile-header {
     text-align: center;
-    background-color: #C7BD71; /* Purple Header */
+    background-color: #C7BD71;
     color: white;
     padding: 1.5rem;
     border-radius: 10px 10px 0 0;
@@ -220,8 +277,8 @@ footer {
 .profile-info {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the content horizontally */
-    text-align: center;  /* Centers the text within the container */
+    align-items: center;
+    text-align: center;
     margin-top: 1rem;
 }
 
