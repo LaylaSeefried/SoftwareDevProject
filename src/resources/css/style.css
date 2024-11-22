@@ -30,6 +30,10 @@ body {
     color: #2b2b2a;
 }
 
+.navbar-nav .nav-item:last-child {
+    margin-right: 15px; /* Adjust the value as needed */
+}
+
 /* Content Layout */
 .container {
     padding: 2rem;
