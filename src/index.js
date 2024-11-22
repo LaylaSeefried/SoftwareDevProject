@@ -175,7 +175,7 @@ app.get('/profile', auth, (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy(); // Destroy the session
-    res.redirect('/login'); // Redirect to login page
+    res.render('pages/logout', {message: "Logged out successfully"});
 });
 
 // API Route for Class Search
