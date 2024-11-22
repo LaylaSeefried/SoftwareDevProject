@@ -240,12 +240,48 @@ app.use(auth);
 
 
 app.get('/logout', (req, res) => {
-  res.render('pages/logout');
-  req.session.destroy();
-
+    req.session.destroy(); // Destroy the session
+    res.render('pages/logout', {message: "Logged out successfully"});
 });
 
-//search bar implementation
+// API Route for Class Search
+app.get('/api/class-search', async (req, res) => {
+    const searchTerm = req.query.q;
+    try {
+        const result = await db.query(
+            `SELECT * FROM courses
+             WHERE course_name ILIKE $1 OR course_id::text LIKE $1`,
+            [`%${searchTerm}%`]
+        );
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Redirect route for course selection
+app.get('/class-select', async (req, res) => {
+    const courseId = req.query.courseId;
+    try 
+    {
+        const result = await db.query(
+            `SELECT * FROM courses WHERE course_id = $1`,
+            [courseId]
+        );
+
+        if (result.rowCount === 0) {
+            res.status(404).send('Course not found');
+        }
+        else {
+            res.redirect(`/courses/${courseId}`);
+        }
+    } 
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
 
 
 // *****************************************************
