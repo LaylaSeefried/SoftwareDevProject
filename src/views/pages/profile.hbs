@@ -69,7 +69,7 @@
                 <label for="profilePhone">Phone (Optional)</label>
                 <input type="tel" class="form-control" id="profilePhone" placeholder="Enter your phone number">
             </div>
-            <button type="submit" class="save-changes-button">Save Changes</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     </div>
 </div>
@@ -98,32 +98,20 @@
 
     function toggleEditForm() {
         var editForm = document.getElementById('editForm');
-        if (editForm.style.display === 'none' || editForm.style.display === '') {
-            // Populate the form fields with existing data from localStorage
-            document.getElementById('profileName').value = localStorage.getItem('profileName') || '';
-            document.getElementById('profileAbout').value = localStorage.getItem('profileAbout') || '';
-            document.getElementById('profileYear').value = localStorage.getItem('profileYear') || '';
-            document.getElementById('profileMajor').value = localStorage.getItem('profileMajor') || '';
-            document.getElementById('profileCourses').value = localStorage.getItem('profileCourses') || '';
-            document.getElementById('profileEmail').value = localStorage.getItem('profileEmail') || '';
-            document.getElementById('profilePhone').value = localStorage.getItem('profilePhone') || '';
-            editForm.style.display = 'block';
-        } else {
-            editForm.style.display = 'none';
-        }
+        editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
     }
 
     function saveChanges(event) {
         event.preventDefault(); // Prevents form from refreshing the page
 
-        // Retrieve values from form inputs (use existing data if the field is empty)
-        var name = document.getElementById('profileName').value || localStorage.getItem('profileName');
-        var about = document.getElementById('profileAbout').value || localStorage.getItem('profileAbout');
-        var year = document.getElementById('profileYear').value || localStorage.getItem('profileYear');
-        var major = document.getElementById('profileMajor').value || localStorage.getItem('profileMajor');
-        var courses = document.getElementById('profileCourses').value || localStorage.getItem('profileCourses');
-        var email = document.getElementById('profileEmail').value || localStorage.getItem('profileEmail');
-        var phone = document.getElementById('profilePhone').value || localStorage.getItem('profilePhone');
+        // Retrieve values from form inputs
+        var name = document.getElementById('profileName').value;
+        var about = document.getElementById('profileAbout').value;
+        var year = document.getElementById('profileYear').value;
+        var major = document.getElementById('profileMajor').value;
+        var courses = document.getElementById('profileCourses').value;
+        var email = document.getElementById('profileEmail').value;
+        var phone = document.getElementById('profilePhone').value;
 
         // Update the profile display with new values
         document.getElementById('profileNameDisplay').textContent = name;
