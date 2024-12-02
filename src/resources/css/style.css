@@ -17,7 +17,7 @@ body {
 
 /* Navbar */
 .navbar {
-    background-color: #C7BD71; /*CU yellow :)*/
+    background-color: #C7BD71; /* CU yellow */
     color: white;
 }
 
@@ -27,7 +27,11 @@ body {
 }
 
 .navbar .nav-link:hover {
-    color: #ffdd57;
+    color: #2b2b2a;
+}
+
+.navbar-nav .nav-item:last-child {
+    margin-right: 15px; /* Adjust the value as needed */
 }
 
 /* Content Layout */
@@ -54,9 +58,83 @@ body {
     margin-bottom: 1rem;
 }
 
+/* Login Page Styles */
+.form-container {
+    background: #fff;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 600px; /* Match the styling for a consistent width */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.form-container label {
+    display: block;
+    font-weight: bold;
+    text-align: left;
+    margin: 0.5rem 0 0.2rem;
+    color: #444;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-container .login-button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #C7BD71; /* Purple button */
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-container .login-button:hover {
+    background-color: #2b2b2a; /* Slightly darker purple on hover */
+}
+
+.form-container .form-text {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.form-container .form-text a {
+    text-decoration: none;
+    color: #2b2b2a; /* Match button color */
+}
+
+.form-container .form-text a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 1.5rem;
+    }
+}
+
+
 /* Search Bar */
 .search-container {
     margin-bottom: 1rem;
+    position: relative; /* To position dropdown correctly */
 }
 
 #class-search {
@@ -64,6 +142,89 @@ body {
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+/* Search Dropdown */
+#search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px; /* Limit height for scrolling */
+    overflow-y: auto;
+    z-index: 1000; /* Ensure it appears above other elements */
+    display: none; /* Initially hidden */
+}
+
+#search-dropdown .dropdown-item {
+    padding: 0.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#search-dropdown .dropdown-item:hover {
+    background: #f0f0f0;
+}
+
+
+/* Adjust the search bar width */
+.wide-search-bar {
+    width: 100%;
+    max-width: 100%; /* Prevents shrinking inside the column */
+}
+
+/* Adjust column sizes for layout */
+.col-lg-5 {
+    flex: 0 0 40%; /* Wider search bar */
+    max-width: 40%;
+}
+
+.col-lg-2 {
+    flex: 0 0 20%; /* Narrower columns for study buddies and incoming requests */
+    max-width: 20%;
+}
+
+.col-lg-3 {
+    flex: 0 0 30%; /* Medium-sized column for incoming requests */
+    max-width: 30%;
+}
+
+/* Card container alignment */
+.card {
+    display: flex;
+    flex-direction: column; /* Keep column structure for content */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100%; /* Ensure the card takes the full height of the container */
+    text-align: center; /* Center-align text */
+}
+
+/* Card titles */
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Align columns in a single row */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 1rem; /* Add spacing between columns */
+}
+
+/* Center the columns as a group */
+.container {
+    max-width: 1200px; /* Set maximum container width */
+    margin: 0 auto; /* Center container horizontally */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Footer */
@@ -81,4 +242,147 @@ footer {
     .content-layout {
         flex-direction: column;
     }
+}
+
+/* Profile Container */
+.profile-container {
+    background: #fff;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 800px; /* Maximum width for responsiveness */
+    min-width: 600px; /* Ensure the rectangle stays wide enough */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Header */
+.profile-header {
+    text-align: center;
+    background-color: #C7BD71;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 10px 10px 0 0;
+}
+
+.profile-header h1 {
+    margin-top: 1rem;
+    font-size: 1.8rem;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin: auto;
+}
+
+/* Profile Info */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.profile-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-info p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+
+/* Profile Stats */
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.profile-stats .stat {
+    text-align: center;
+}
+
+.profile-stats .stat h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+/* Contact Info */
+.contact-info {
+    margin-top: 1rem;
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.contact-info h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-info p {
+    font-size: 1rem;
+    margin: 0.3rem 0;
+    color: #444;
+}
+
+/* Edit Form */
+.edit-form {
+    display: none;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+}
+
+.edit-form h3 {
+    margin-bottom: 1rem;
+}
+
+.edit-form .form-control {
+    margin-bottom: 1rem;
+}
+
+.edit-button {
+    display: block;
+    margin: 1.5rem auto;
+    padding: 0.5rem 1.5rem;
+    background-color: #C7BD71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #2b2b2a;
+}
+
+/* Save Changes Button Styling */
+.save-changes-button {
+    display: block;
+    margin: 1.5rem auto;
+    padding: 0.5rem 1.5rem;
+    background-color: #C7BD71; /* Same as your "Edit Profile" button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.save-changes-button:hover {
+    background-color: #2b2b2a; /* Slightly darker on hover */
 }

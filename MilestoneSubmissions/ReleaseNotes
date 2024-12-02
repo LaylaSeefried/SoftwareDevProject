@@ -1,4 +1,50 @@
-11/1 - 11/8:
+***Release notes in more detial located on right side of main page of repository under 'Releases'***
 
-This week, we have completely set up our directory structure, created style.css, main.hbs, header.hbs, footer.hbs, login.hbs, and register.hbs. 
-They are not perfect yet and will most likely change throughout the course of this project. We also finally got our container up and running.
+## Week 1: What's Changed
+* Set up initial Docker configuration by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/9
+* Login and register by @nathanmahary in https://github.com/LaylaSeefried/SoftwareDevProject/pull/11
+* Initial Package json by @MatusalaT in https://github.com/LaylaSeefried/SoftwareDevProject/pull/12
+* updating index.js by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/19
+* server.spec.js by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/18
+
+## New Contributors
+* @LaylaSeefried made their first contribution in https://github.com/LaylaSeefried/SoftwareDevProject/pull/9
+* @nathanmahary made their first contribution in https://github.com/LaylaSeefried/SoftwareDevProject/pull/11
+* @MatusalaT made their first contribution in https://github.com/LaylaSeefried/SoftwareDevProject/pull/12
+
+**Full Changelog**: https://github.com/LaylaSeefried/SoftwareDevProject/commits/week1
+
+
+
+## Week 2: What's Changed
+* sample course data by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/21
+* Edited home.hbs by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/20
+* header-footer by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/22
+* Very Rough Draft of Course Page by @MatusalaT in https://github.com/LaylaSeefried/SoftwareDevProject/pull/24
+* setting up create.sql by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/26
+* editing sample data by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/27
+* Profile set, index changed, footer fixed by @nathanmahary in https://github.com/LaylaSeefried/SoftwareDevProject/pull/28
+* more sample data by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/29
+* adding bio, year, and major to users table by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/32
+* Updated Login by @nathanmahary in https://github.com/LaylaSeefried/SoftwareDevProject/pull/33
+* Minor change to database by @MatusalaT in https://github.com/LaylaSeefried/SoftwareDevProject/pull/34
+* Somewhat working database by @MatusalaT in https://github.com/LaylaSeefried/SoftwareDevProject/pull/35
+* UAT by @MatusalaT in https://github.com/LaylaSeefried/SoftwareDevProject/pull/36
+* adding descriptions to courses by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/37
+* fixing navbar by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/38
+
+
+**Full Changelog**: https://github.com/LaylaSeefried/SoftwareDevProject/compare/week1...week2
+
+
+
+## Week 3: What's Changed
+* beginning to implement the searchbar by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/25
+* searchbar functioning by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/42
+* added contact info and fixed profile page styling by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/48
+* fixing styling for login and register by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/49
+* setting up server by @LaylaSeefried in https://github.com/LaylaSeefried/SoftwareDevProject/pull/50
+
+
+**Full Changelog**: https://github.com/LaylaSeefried/SoftwareDevProject/compare/week2...week3
+

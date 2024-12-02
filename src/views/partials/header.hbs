@@ -1,16 +1,17 @@
 <header>
+    {{#if customNavbar}}
+    <!-- Custom Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand ms-3" href="/home">Study Circle</a>
+    </nav>
+    {{else}}
+    <!-- Default Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="navbar-collapse collapse w-100 order-1 order-md-0">
-            <a class="navbar-brand ms-3" href="/">Study Circle</a>
+            <a class="navbar-brand ms-3" href="/home">Study Circle</a>
             <ul class="navbar-nav mr-auto ms-2">
                 <li class="nav-item">
                     <a class="nav-link" href="/home">Home</a>
-                </li>
-                <li class="nav-item"></li>
-                    <a class="nav-link" href="/profile">My Profile</a>
-                </li>
-                <li class="nav-item"></li>
-                    <a class="nav-link" href="/course">Courses</a>
                 </li>
                 <div class="nav-item">
                     <a class="nav-link" href="/logout">
@@ -18,6 +19,16 @@
                     </a>
                 </div>
             </ul>
+            <ul class="navbar-nav ms-auto"> <!-- Right-aligned section -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-user-circle fa-lg"></i> <!-- Profile Icon -->
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
+    {{/if}}
 </header>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>

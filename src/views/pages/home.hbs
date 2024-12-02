@@ -1,14 +1,17 @@
 <div class="container">
-    <!-- Search Bar -->
-    <div class="search-container mb-4">
-        <input type="text" id="class-search" class="form-control" placeholder="Search a class" autocomplete="off">
-    </div>
-
-    <!-- Main Content Layout with Bootstrap Grid -->
     <div class="row">
+        <!-- Search Bar Column -->
+        <div class="col-lg-5">
+            <div class="search-container">
+                <input type="text" id="class-search" class="form-control search-bar" placeholder="Search for a class..."
+                    autocomplete="off">
+                <div id="search-dropdown" class="dropdown-menu"></div>
+            </div>
+        </div>
+
         <!-- Current Study Buddies Column -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+        <div class="col-lg-2">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title">Current Study Buddies</h3>
                     <div class="buddy-list">
@@ -19,8 +22,8 @@
         </div>
 
         <!-- Suggested Study Buddies Column -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+        <div class="col-lg-2">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title">Suggested Study Buddies</h3>
                     <div class="suggested-list">
@@ -31,8 +34,8 @@
         </div>
 
         <!-- Incoming Requests Column -->
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+        <div class="col-lg-3">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title">Incoming Requests</h3>
                     <div class="request-list">
@@ -43,3 +46,5 @@
         </div>
     </div>
 </div>
+
+<script src="/js/classSearch.js"></script>

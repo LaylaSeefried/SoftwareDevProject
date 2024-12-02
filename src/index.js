@@ -26,7 +26,7 @@ const hbs = handlebars.create({
 
 // database configuration
 const dbConfig = {
-  host: 'db', // the database server
+  host: process.env.HOST, // the database server
   port: 5432, // the database port
   database: process.env.POSTGRES_DB, // the database name
   user: process.env.POSTGRES_USER, // the user account to connect with
@@ -55,8 +55,8 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
 
-// Serve static files from the 'resources' directory
-app.use(express.static(path.join(__dirname, 'src/resources')));
+app.use('/css', express.static(path.join(__dirname, 'resources/css')));
+app.use('/js', express.static(path.join(__dirname, 'resources/js')));
 
 // initialize session variables
 app.use(
@@ -78,166 +78,100 @@ app.use(
 // <!-- Section 4 : API Routes -->
 // *****************************************************
 
-// TODO - Include your API routes here
-
-//dummy API
+// Dummy API
 app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+    res.json({ status: 'success', message: 'Welcome!' });
 });
 
-
+// Public Routes
 app.get('/', (req, res) => {
-    res.redirect('pages/login');
+    res.redirect('/login');
 });
 
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+    res.render('pages/login', { customNavbar: true });
 });
 
 app.get('/register', (req, res) => {
-    res.render('pages/register');
+    res.render('pages/register', { customNavbar: true });
 });
 
 app.post('/register', async (req, res) => {
-  //hash the password using bcrypt library
-  const hash = await bcrypt.hash(req.body.password, 10);
-  const username = req.body.username;
-  // To-DO: Insert username and hashed password into the 'users' table
-  const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
+    const hash = await bcrypt.hash(req.body.password, 10);
+    const username = req.body.username;
+    const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
 
-
-  // get the student_id based on the emailid
-  db.one(query, [username, hash])
-    .then(data => {
-
-      res.redirect('/login');
-      console.log("Registered User with Password: ", data);
-    })
-    .catch(err => {
-      console.log(err);
-      res.redirect('/register');
-    });
-
+    db.one(query, [username, hash])
+        .then(data => {
+            res.redirect('/login');
+            console.log("Registered User with Password: ", data);
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/register');
+        });
 });
 
 app.post('/login', async (req, res) => {
-  const query = "SELECT * FROM users where username = $1";
-  const username = req.body.username;
-  const password = req.body.password;
+    const query = "SELECT * FROM users WHERE username = $1";
+    const username = req.body.username;
+    const password = req.body.password;
 
-  try {
-    const user = await db.one(
-      query, [username]
-    )
-    console.log("Retrieved User: ", user)
-    // check if password from request matches with password in DB
-    const match = await bcrypt.compare(password, user.password);
-    console.log(match);
-    console.log(user);
-    if (match)
-    {
-      
-      //save user details in session like in lab 7
-      req.session.user = username;
-      req.session.save();
-      res.redirect("/home");
+    try {
+        // Fetch user by username
+        const user = await db.one(query, [username]);
+
+        // Compare password
+        const match = await bcrypt.compare(password, user.password);
+
+        if (match) {
+            // Successful login
+            req.session.user = username;
+            req.session.save(() => {
+                res.redirect("/home");
+            });
+        } else {
+            // Password mismatch
+            res.render('pages/login', {
+                customNavbar: true,
+                errorMessage: 'Password does not match the username. Please try again or register.',
+            });
+        }
+    } catch (error) {
+        // Handle database query errors (e.g., username not found)
+        if (error.message.includes('No data returned from the query')) {
+            res.render('pages/login', {
+                customNavbar: true,
+                errorMessage: 'Invalid username. Please try again or register.',
+            });
+        } else {
+            console.error("Login error:", error);
+            res.status(500).send("Server error");
+        }
     }
-    else{
-      res.redirect("/login");
-    }
-    
-  }
-
-  catch(error){
-    res.redirect("/register");
-    console.log(error)
-    
-  }
-
-
 });
 
 
-app.get('/home', (req, res) => {
-  res.render('pages/home', {
-
-  });
-});
-
-// app.get('/course', async (req, res) => {
-//   const courseID = req.query.course_id;
-//   res.render('pages/course', {
-//     courses: {
-
-//     }
-//   });
-// });
-
-// Route for course page
-app.get('/course', async (req, res) => {
-  try {
-    const courseId = req.body.course_id;
-
-    // Query course details
-    const courseQuery = `
-      SELECT course_name, course_description 
-      FROM courses 
-      WHERE course_id = $1
-    `;
-    const courseResult = await pool.query(courseQuery, [courseId]);
-
-    if (courseResult.rows.length === 0) {
-      return res.status(404).send('Course not found');
-    }
-
-    const course = courseResult.rows[0];
-
-    // Query enrolled students
-    const studentsQuery = `
-      SELECT username 
-      FROM user_courses 
-      WHERE course_id = $1
-    `;
-    const studentsResult = await pool.query(studentsQuery, [courseId]);
-    const students = studentsResult.rows.map(row => row.username);
-
-    // Render the course page with the data
-    res.render('pages/course', {
-      courses: {
-        course_name: course.course_name,
-        course_description: course.course_description,
-      },
-      users: {
-        username: students,
-      },
-    });
-  } 
-  catch (error) {
-    console.error('Error fetching course data:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-app.get('/profile', (req, res) => {
-  res.render('pages/profile', {
-
-  });
-});
-
-
-
-// Authentication Required
-// Authentication Middleware.
+// Authentication Middleware
 const auth = (req, res, next) => {
-  if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
-  }
-  next();
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
 };
 
-app.use(auth);
+// Protected Routes (use `auth` middleware here)
+app.get('/home', auth, (req, res) => {
+    res.render('pages/home', {});
+});
 
+app.get('/course', auth, (req, res) => {
+    res.render('pages/course', {});
+});
+
+app.get('/profile', auth, (req, res) => {
+    res.render('pages/profile', {});
+});
 
 app.get('/logout', (req, res) => {
     req.session.destroy(); // Destroy the session
@@ -260,34 +194,11 @@ app.get('/api/class-search', async (req, res) => {
     }
 });
 
-// Redirect route for course selection
-app.get('/class-select', async (req, res) => {
-    const courseId = req.query.courseId;
-    try 
-    {
-        const result = await db.query(
-            `SELECT * FROM courses WHERE course_id = $1`,
-            [courseId]
-        );
-
-        if (result.rowCount === 0) {
-            res.status(404).send('Course not found');
-        }
-        else {
-            res.redirect(`/courses/${courseId}`);
-        }
-    } 
-    catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-});
-
 
 // *****************************************************
-// <!-- Section 5 : Start Server-->
+// <!-- Section 5 : Start Server -->
 // *****************************************************
-// starting the server and keeping the connection open to listen for more requests
 module.exports = app.listen(3000);
 console.log('Server is listening on port 3000');
+
 

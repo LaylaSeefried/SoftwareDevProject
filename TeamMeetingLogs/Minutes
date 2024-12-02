@@ -55,3 +55,27 @@ Follow-up:
 - Nathan:
     - Finish profile page
     - Fix login and register
+
+
+Week 3 Minutes:
+
+11/19/24
+5:45
+
+What is left?
+    -Need to finish populating profile
+    -Need to finish populating home page
+        -Suggested study buddies algorithm
+        -Incoming requests
+
+Follow up:
+    Layla
+        -Keep working on styling
+        -Start working on suggested study buddies
+        -Add contact info to profile page (update db accordingly)
+    Mat
+        -Routes to course pages from search bar
+    Nathan
+        -Fixing styling on pages that were not using style.css
+        -Making sure database is populating correctly (passwords)
+        -Fix populating profile data
