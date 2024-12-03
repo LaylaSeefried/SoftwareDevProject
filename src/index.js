@@ -194,6 +194,54 @@ app.get('/api/class-search', async (req, res) => {
     }
 });
 
+// Route for rendering course pages
+app.get('/courses/:courseId', async (req, res) => {
+    console.log('DB object:', db);
+    const courseId = req.params.courseId;
+
+    try {
+        // Fetch course details
+        const courseResult = await db.query(
+            `SELECT course_name, course_description, credit_hours
+             FROM courses
+             WHERE course_id = $1`,
+            [courseId]
+        );
+
+        console.log('Course query result:', courseResult.rows);
+
+        if (courseResult.rowCount === 0) {
+            return res.status(404).send('Course not found');
+        }
+
+        const course = courseResult.rows[0];
+
+        // Fetch enrolled students
+        const studentsResult = await db.query(
+            `SELECT u.username
+             FROM student_courses sc
+             JOIN users u ON sc.username = u.username
+             WHERE sc.course_id = $1`,
+            [courseId]
+        );
+
+        console.log('Students query result:', studentsResult.rows);
+
+        const students = studentsResult.rows.map(row => row.username);
+
+        // Render the course.hbs template with the course data
+        res.render('course', {
+            course_name: course.course_name,
+            course_description: course.course_description,
+            credit_hours: course.credit_hours,
+            students: students,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
 
 // *****************************************************
 // <!-- Section 5 : Start Server -->
