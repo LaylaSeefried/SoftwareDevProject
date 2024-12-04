@@ -36,10 +36,14 @@ body {
 
 /* Content Layout */
 .container {
-    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    gap: 2rem;
+    justify-content: center; /* Horizontally center */
+    align-items: flex-start; /* Align items to the top */
+    padding-top: 2rem; /* Add some padding at the top */
 }
+
 
 .content-layout {
     display: flex;
@@ -179,13 +183,13 @@ body {
 
 /* Adjust column sizes for layout */
 .col-lg-5 {
-    flex: 0 0 700px; /* Wider search bar */
-    max-width: 700px;
+    flex: 0 0 60%;
+    max-width: 60%;
 }
 
 .col-lg-2, .col-lg-3 {
-    flex: 0 0 300px; /* Fixed width for the smaller columns */
-    max-width: 300px;
+    flex: 0 0 20%;
+    max-width: 20%;
 }
 
 /* Card container alignment */
@@ -207,10 +211,10 @@ body {
 /* Align columns in a single row */
 .row {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: nowrap; /* Prevent wrapping */
-    gap: 1rem; /* Add spacing between columns */
+    justify-content: center; /* Horizontally center columns */
+    align-items: flex-start; /* Align items at the top */
+    gap: 2rem; /* Add spacing between columns */
+    width: 100%; /* Ensure row spans full width */
 }
 
 /* Center the columns as a group */
