@@ -179,18 +179,13 @@ body {
 
 /* Adjust column sizes for layout */
 .col-lg-5 {
-    flex: 0 0 40%; /* Wider search bar */
-    max-width: 40%;
+    flex: 0 0 700px; /* Wider search bar */
+    max-width: 700px;
 }
 
-.col-lg-2 {
-    flex: 0 0 20%; /* Narrower columns for study buddies and incoming requests */
-    max-width: 20%;
-}
-
-.col-lg-3 {
-    flex: 0 0 30%; /* Medium-sized column for incoming requests */
-    max-width: 30%;
+.col-lg-2, .col-lg-3 {
+    flex: 0 0 300px; /* Fixed width for the smaller columns */
+    max-width: 300px;
 }
 
 /* Card container alignment */
