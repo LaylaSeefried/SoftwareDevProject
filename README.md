@@ -13,7 +13,7 @@
 - View all the courses they’re enrolled in
 - Search for available courses
 - View profiles of other students enrolled in their courses
-- Send and receive study requests to and from others
+- Network and connect with other students
 
 The application is built with the following technologies:
 - **Node.js** and **Express** for the backend
