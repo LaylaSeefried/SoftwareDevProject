@@ -227,7 +227,7 @@ app.get('/courses/:courseId', async (req, res) => {
 
         console.log('Students query result:', studentsResult.rows);
 
-        const students = studentsResult.rows.map(row => row.username);
+        // const students = studentsResult.rows.map(row => row.username);
 
         // Render the course.hbs template with the course data
         res.render('course', {
