@@ -198,6 +198,7 @@ app.get('/api/class-search', async (req, res) => {
 app.get('/courses/:courseId', async (req, res) => {
     console.log('DB object:', db);
     const courseId = req.params.courseId;
+    console.log('Parsed course ID:', courseId);
 
     try {
         // Fetch course details
@@ -211,6 +212,7 @@ app.get('/courses/:courseId', async (req, res) => {
         console.log('Course query result:', courseResult.rows);
 
         if (courseResult.rowCount === 0) {
+            console.error(err);
             return res.status(404).send('Course not found');
         }
 
@@ -227,10 +229,10 @@ app.get('/courses/:courseId', async (req, res) => {
 
         console.log('Students query result:', studentsResult.rows);
 
-        // const students = studentsResult.rows.map(row => row.username);
+        const students = studentsResult.rows.map(row => row.username);
 
         // Render the course.hbs template with the course data
-        res.render('course', {
+        res.render('pages/course', {
             course_name: course.course_name,
             course_description: course.course_description,
             credit_hours: course.credit_hours,
