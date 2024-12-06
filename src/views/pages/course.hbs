@@ -1,21 +1,21 @@
 <div class="course-container" style="max-width: 600px; margin: 0 auto;">
     <header>
-        {{!-- <h1>{{className}}</h1> <!-- Class name at the top --> --}}
         <h1>Class</h1>
+        <h1>{{course_name}}</h1> <!-- Class name at the top -->
     </header>
     
     <section>
         <h2>Course Description</h2>
-        {{!-- <p>{{courseDescription}}</p> <!-- Space for course description --> --}}
+        <p>{{course_description}}</p> <!-- Space for course description -->
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </section>
 
     <section>
         <h2>Students Enrolled</h2>
         <ul>
-            {{!-- {{#each students}}
+            {{#each students}}
                 <li>{{this}}</li> <!-- Display each student in the list -->
-            {{/each}} --}}
+            {{/each}}
             <li>Student One</li>
             <li>Student Two</li>
             <li>Student Three</li>
