@@ -428,6 +428,49 @@ app.get('/users/:username', auth, async (req, res) => {
     }
 });
 
+app.get('/view-profile', async (req, res) => {
+    const username = req.query.username; // Extract the username from the query
+
+    try {
+        // Fetch user details
+        const userQuery = `
+            SELECT username, bio, year, major, email
+            FROM users
+            WHERE username = $1
+        `;
+        const user = await db.oneOrNone(userQuery, [username]);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Fetch the user's enrolled courses
+        const coursesQuery = `
+            SELECT c.course_name, c.credit_hours
+            FROM student_courses sc
+            JOIN courses c ON sc.course_id = c.course_id
+            WHERE sc.username = $1
+        `;
+        const courses = await db.any(coursesQuery, [username]);
+
+        // Render the profile page
+        res.render('pages/view-profile', {
+            user: {
+                username: user.username,
+                bio: user.bio,
+                year: user.year,
+                major: user.major,
+                email: user.email,
+                courses: courses,
+            },
+        });
+    } catch (err) {
+        console.error('Error fetching user profile:', err);
+        res.status(500).send('Server error');
+    }
+});
+
+
 
 
 
