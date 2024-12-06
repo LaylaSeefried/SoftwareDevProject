@@ -169,9 +169,31 @@ app.get('/course', auth, (req, res) => {
     res.render('pages/course', {});
 });
 
-app.get('/profile', auth, (req, res) => {
-    res.render('pages/profile', {});
+app.get('/profile', auth, async (req, res) => {
+    const username = req.session.user;
+
+    try {
+        // Query to fetch courses the user is enrolled in
+        const query = `
+            SELECT c.course_id, c.course_name, c.credit_hours
+            FROM student_courses sc
+            JOIN courses c ON sc.course_id = c.course_id
+            WHERE sc.username = $1
+        `;
+
+        const courses = await db.any(query, [username]);
+
+        // Render profile page with courses
+        res.render('pages/profile', {
+            username: username,
+            courses: courses, // Pass the courses to the template
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
 });
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy(); // Destroy the session
@@ -239,6 +261,7 @@ app.get('/courses/:courseId', async (req, res) => {
 
         // Render the course.hbs template with the course data
         res.render('pages/course', {
+            course_id: courseId,
             course_name: course.course_name,
             course_description: course.course_description,
             credit_hours: course.credit_hours,
@@ -249,6 +272,33 @@ app.get('/courses/:courseId', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+app.post('/courses/add', auth, async (req, res) => {
+    const courseId = req.body.course_id;
+    const username = req.session.user;
+
+    if (!courseId || !username) {
+        return res.status(400).send("Invalid request");
+    }
+
+    try {
+        // Insert the course and user relationship into the `student_courses` table
+        const query = `
+            INSERT INTO student_courses (course_id, username)
+            VALUES ($1, $2)
+            ON CONFLICT DO NOTHING; -- Prevent duplicate entries
+        `;
+
+        await db.none(query, [courseId, username]);
+
+        // Redirect back to the course page
+        res.redirect(`/courses/${courseId}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
 
 
 // *****************************************************

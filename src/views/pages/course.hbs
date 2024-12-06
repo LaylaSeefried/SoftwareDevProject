@@ -9,7 +9,10 @@
     </section>
 
     <div class="button-container">
-        <a href="/" class="btn add-course-btn">Add Course</a>
+        <form action="/courses/add" method="POST">
+            <input type="hidden" name="course_id" value="{{course_id}}" />
+            <button type="submit" class="btn add-course-btn">Add Course</button>
+        </form>
     </div>
 
     <section class="students-section">

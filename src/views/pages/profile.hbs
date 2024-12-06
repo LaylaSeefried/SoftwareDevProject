@@ -22,11 +22,18 @@
         <div class="stat">
             <p>Courses</p>
             <ul id="profileCoursesDisplay">
-                <li>--</li>
+                {{#if courses}}
+                {{#each courses}}
+                <li><strong>{{course_name}}</strong> - {{credit_hours}} credit(s)</li>
+                {{/each}}
+                {{else}}
+                <li>No courses enrolled yet.</li>
+                {{/if}}
             </ul>
         </div>
-    </div>
 
+        </div>
+    </div>
     <!-- Contact Info Section -->
     <div class="contact-info">
         <h2>Let's Get in Touch!</h2>
