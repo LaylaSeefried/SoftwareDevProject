@@ -250,6 +250,43 @@ app.get('/courses/:courseId', async (req, res) => {
     }
 });
 
+// Route to view student profile page
+app.get('/students/:id', auth, (req, res) => {
+    const studentId = req.params.id;
+    res.render('pages/StudentProfile', { studentId });
+});
+
+// API Route to fetch student details
+app.get('/api/student/:id', auth, async (req, res) => {
+    const studentId = req.params.id;
+
+    try {
+        const studentQuery = `
+            SELECT u.username, u.major,
+                   ARRAY_AGG(c.course_name) AS courses
+            FROM users u
+            LEFT JOIN student_courses sc ON u.username = sc.username
+            LEFT JOIN courses c ON sc.course_id = c.course_id
+            WHERE u.username = $1
+            GROUP BY u.username, u.major
+        `;
+        const student = await db.oneOrNone(studentQuery, [studentId]);
+
+        if (!student) {
+            return res.status(404).json({ error: "Student not found" });
+        }
+
+        res.json({
+            name: student.username,
+            major: student.major,
+            courses: student.courses || [],
+        });
+    } catch (error) {
+        console.error("Error fetching student:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 
 // *****************************************************
 // <!-- Section 5 : Start Server -->
