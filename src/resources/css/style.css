@@ -385,3 +385,79 @@ footer {
 .save-changes-button:hover {
     background-color: #2b2b2a; /* Slightly darker on hover */
 }
+
+/*Courses Page*/
+
+
+/* Content Wrapper for Full Height */
+.content-wrapper {
+    background: #fff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto; /* Center the content vertically */
+    padding: 2rem;
+    width: 90%; /* Adjust width for responsiveness */
+    max-width: 800px; /* Limit max width */
+    min-height: 80vh; /* Extend to cover most of the viewport */
+}
+
+/* Page Title */
+.page-title {
+    font-size: 1.8rem;
+    color: #2b2b2a; /* CU Yellow */
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Section Titles */
+.section-title {
+    font-size: 1.5rem;
+    color: #2b2b2a;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #C7BD71; /* Accent line */
+    display: inline-block;
+}
+
+/* Center Content for Students Enrolled Section */
+.students-section {
+    text-align: center; /* Center the section content */
+    margin-top: 3rem; /* Add spacing from the Add Course button */
+    display: block;
+}
+
+/* Center the Students List */
+.students-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+    display: block; /* Make the list inline-block to center it */
+    text-align: center; /* Align text within the block */
+}
+
+
+/* Button Container */
+.button-container {
+    text-align: center;
+    margin-top: 3rem 0;
+}
+
+/* Add Course Button */
+.add-course-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+    background-color: #C7BD71; /* Match CU Yellow */
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-course-btn:hover {
+    background-color: #2b2b2a; /* Darker shade on hover */
+    transform: scale(1.05);
+}
+
