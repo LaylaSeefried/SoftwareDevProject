@@ -194,6 +194,62 @@ app.get('/api/class-search', async (req, res) => {
     }
 });
 
+// Route for rendering course pages
+app.get('/courses/:courseId', async (req, res) => {
+    console.log('DB object:', db);
+    const courseId = parseInt(req.params.courseId, 10);
+    console.log('Parsed course ID:', courseId);
+
+    if (isNaN(courseId)) {
+        console.error('Invalid course ID:', req.params.courseId);
+        return res.status(400).send('Invalid course ID');
+    }
+
+    try {
+        // Fetch course details
+        const courseResult = await db.query(
+            `SELECT course_name, course_description, credit_hours
+             FROM courses
+             WHERE course_id = $1`,
+            [courseId]
+        );
+
+        console.log('Course query result:', courseResult);
+
+        if (!courseResult || courseResult.length === 0) {
+            console.error('No course found for:', courseId);
+            return res.status(404).send('Course not found');
+        }
+
+        const course = courseResult[0];
+        console.log('Course details:', course);
+
+        // Fetch enrolled students
+        const studentsResult = await db.query(
+            `SELECT u.username
+             FROM student_courses sc
+             JOIN users u ON sc.username = u.username
+             WHERE sc.course_id = $1`,
+            [courseId]
+        );
+
+        console.log('Students query result:', studentsResult);
+
+        const students = studentsResult.map(row => row.username);
+
+        // Render the course.hbs template with the course data
+        res.render('pages/course', {
+            course_name: course.course_name,
+            course_description: course.course_description,
+            credit_hours: course.credit_hours,
+            students: students,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
 
 // *****************************************************
 // <!-- Section 5 : Start Server -->

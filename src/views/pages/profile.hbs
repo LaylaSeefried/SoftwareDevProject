@@ -75,7 +75,6 @@
 </div>
 
 <script>
-    // Load stored profile data on page load
     window.onload = function () {
         if (localStorage.getItem('profileName')) {
             document.getElementById('profileNameDisplay').textContent = localStorage.getItem('profileName');
@@ -85,16 +84,27 @@
             document.getElementById('profileEmailDisplay').textContent = localStorage.getItem('profileEmail') || '--';
             document.getElementById('profilePhoneDisplay').textContent = localStorage.getItem('profilePhone') || '--';
 
-            const courses = localStorage.getItem('profileCourses') ? localStorage.getItem('profileCourses').split(',') : ['--'];
+            const courses = localStorage.getItem('profileCourses') ? localStorage.getItem('profileCourses').split(',') : [];
             const coursesList = document.getElementById('profileCoursesDisplay');
             coursesList.innerHTML = '';
-            courses.forEach(course => {
+
+            if (courses.length === 0 || (courses.length === 1 && courses[0].trim() === '--')) {
+                coursesList.style.listStyleType = 'none'; // Remove bullet points
                 const li = document.createElement('li');
-                li.textContent = course.trim();
+                li.innerHTML = "Search for courses from the<br>home page to add them!";
                 coursesList.appendChild(li);
-            });
+            } else {
+                coursesList.style.listStyleType = 'disc'; // Show bullet points for valid classes
+                courses.forEach(course => {
+                    const li = document.createElement('li');
+                    li.textContent = course.trim();
+                    coursesList.appendChild(li);
+                });
+            }
         }
     }
+
+
 
     function toggleEditForm() {
         var editForm = document.getElementById('editForm');

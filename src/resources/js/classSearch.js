@@ -4,16 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchInput.addEventListener('input', async (event) => {
         const query = event.target.value;
-        console.log(`Search query: ${query}`); // Log the search term
         if (query.length > 1) { // Start searching after 2 characters
             try {
                 const response = await fetch(`/api/class-search?q=${encodeURIComponent(query)}`);
-                console.log(`API Response Status: ${response.status}`); // Log the status code
                 const results = await response.json();
-                console.log(`Results:`, results); // Log the API results
                 displaySearchResults(results);
             } catch (err) {
-                console.error(`Error fetching search results:`, err); // Log any errors
+                console.error(`Error fetching search results:`, err);
             }
         } else {
             clearSearchResults();
@@ -21,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function displaySearchResults(results) {
-        console.log(`Displaying Results:`, results); // Log the results being displayed
         dropdown.innerHTML = ''; // Clear existing results
         if (results.length === 0) {
             const noResults = document.createElement('div');
@@ -30,10 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
             dropdown.appendChild(noResults);
         } else {
             results.forEach(result => {
-                const item = document.createElement('div');
-                item.textContent = `${result.course_id} - ${result.course_name}`; // Display course_id and course_name
-                item.classList.add('dropdown-item'); // Add dropdown styling
-                dropdown.appendChild(item);
+                const link = document.createElement('a');
+                link.href = `/courses/${result.course_id}`; // Link to the course details page
+                link.textContent = `${result.course_id} - ${result.course_name}`;
+                link.classList.add('dropdown-item'); // Add dropdown styling
+                dropdown.appendChild(link);
             });
         }
         dropdown.style.display = 'block'; // Ensure dropdown is visible
