@@ -1,28 +1,23 @@
-<div class="course-container" style="max-width: 600px; margin: 0 auto;">
+<div class="container content-wrapper">
     <header>
-        <h1>Class</h1>
-        <h1>{{course_name}}</h1> <!-- Class name at the top -->
+        <h1 class="page-title">Introduction to Programming</h1>
     </header>
-    
-    <section>
-        <h2>Course Description</h2>
-        <p>{{course_description}}</p> <!-- Space for course description -->
-    </section>
 
     <section>
-        <h2>Students Enrolled</h2>
-        <ul>
+        <h2 class="section-title">Course Description</h2>
+        <p>{{course_description}}</p>
+    </section>
+
+    <div class="button-container">
+        <a href="/" class="btn add-course-btn">Add Course</a>
+    </div>
+
+    <section class="students-section">
+        <h2 class="section-title">Students Enrolled</h2>
+        <ul class="students-list">
             {{#each students}}
-                <li>{{this}}</li> <!-- Display each student in the list -->
+            <li>{{this}}</li>
             {{/each}}
         </ul>
     </section>
-
-    <!-- Add Course Button -->
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="/" style="padding: 10px 20px; font-size: 16px; cursor: pointer; text-decoration: none; color: white; background-color: #007BFF; border-radius: 5px;">
-            Add Course
-        </a>
-    </div>
-
 </div>
