@@ -197,8 +197,13 @@ app.get('/api/class-search', async (req, res) => {
 // Route for rendering course pages
 app.get('/courses/:courseId', async (req, res) => {
     console.log('DB object:', db);
-    const courseId = req.params.courseId;
+    const courseId = parseInt(req.params.courseId, 10);
     console.log('Parsed course ID:', courseId);
+
+    if (isNaN(courseId)) {
+        console.error('Invalid course ID:', req.params.courseId);
+        return res.status(400).send('Invalid course ID');
+    }
 
     try {
         // Fetch course details
@@ -209,14 +214,15 @@ app.get('/courses/:courseId', async (req, res) => {
             [courseId]
         );
 
-        console.log('Course query result:', courseResult.rows);
+        console.log('Course query result:', courseResult);
 
-        if (courseResult.rowCount === 0) {
-            console.error(err);
+        if (!courseResult || courseResult.length === 0) {
+            console.error('No course found for:', courseId);
             return res.status(404).send('Course not found');
         }
 
-        const course = courseResult.rows[0];
+        const course = courseResult[0];
+        console.log('Course details:', course);
 
         // Fetch enrolled students
         const studentsResult = await db.query(
@@ -227,9 +233,9 @@ app.get('/courses/:courseId', async (req, res) => {
             [courseId]
         );
 
-        console.log('Students query result:', studentsResult.rows);
+        console.log('Students query result:', studentsResult);
 
-        const students = studentsResult.rows.map(row => row.username);
+        const students = studentsResult.map(row => row.username);
 
         // Render the course.hbs template with the course data
         res.render('pages/course', {
