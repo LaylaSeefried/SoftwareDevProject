@@ -422,9 +422,8 @@ footer {
 
 /* Center Content for Students Enrolled Section */
 .students-section {
-    text-align: center; /* Center the section content */
-    margin-top: 3rem; /* Add spacing from the Add Course button */
-    display: block;
+    text-align: center;
+    margin-top: 0;
 }
 
 /* Center the Students List */
@@ -436,11 +435,16 @@ footer {
     text-align: center; /* Align text within the block */
 }
 
+.parent-container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align horizontally */
+    margin-top: 2rem; /* Add some spacing above */
+    width: 100%; /* Ensure full width */
+}
 
-/* Button Container */
 .button-container {
-    text-align: center;
-    margin-top: 3rem 0;
+    margin-bottom: 2rem; /* Space below the button */
 }
 
 /* Add Course Button */

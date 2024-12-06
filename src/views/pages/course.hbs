@@ -8,20 +8,21 @@
         <p>{{course_description}}</p>
     </section>
 
-    <div class="button-container">
-        <form action="/courses/add" method="POST">
-            <input type="hidden" name="course_id" value="{{course_id}}" />
-            <button type="submit" class="btn add-course-btn">Add Course</button>
-        </form>
+    <div class="parent-container">
+        <div class="button-container">
+            <form action="/courses/add" method="POST">
+                <input type="hidden" name="course_id" value="{{course_id}}" />
+                <button type="submit" class="btn add-course-btn">Add Course</button>
+            </form>
+        </div>
+
+        <section class="students-section">
+            <h2 class="section-title">Students Enrolled</h2>
+            <ul class="students-list">
+                {{#each students}}
+                <li><a href="/users/{{this}}">{{this}}</a></li>
+                {{/each}}
+            </ul>
+        </section>
     </div>
-
-    <section class="students-section">
-        <h2 class="section-title">Students Enrolled</h2>
-        <ul class="students-list">
-            {{#each students}}
-            <li><a href="/users/{{this}}">{{this}}</a></li>
-            {{/each}}
-        </ul>
-
-    </section>
 </div>
