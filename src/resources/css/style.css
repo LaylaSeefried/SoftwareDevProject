@@ -461,3 +461,28 @@ footer {
     transform: scale(1.05);
 }
 
+
+/* Profile Year and Major Section */
+.profile-year-major {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem; /* Space between Year and Major */
+    margin-bottom: 2rem; /* Add spacing below Year/Major section */
+}
+
+.profile-year, .profile-major {
+    text-align: center;
+}
+
+.profile-year h3, .profile-major h3 {
+    font-size: 1.5rem; /* Larger text for Year and Major */
+    margin: 0.5rem 0;
+    color: #2b2b2a; /* CU Yellow */
+}
+
+.profile-year p, .profile-major p {
+    font-size: 1rem; /* Slightly smaller text for labels */
+    color: #666;
+}
+

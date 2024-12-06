@@ -1,12 +1,27 @@
 <div class="form-container">
-    <h2>Register</h2>
-    <form method="post" action="/register">
+    <h2>Register for Study Circle</h2>
+    <form method="POST" action="/register">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" required /><br />
+        <input type="text" id="username" name="username" required>
 
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" required /><br />
+        <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="Register" class="login-button" />
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+
+        <label for="year">Year</label>
+        <select id="year" name="year">
+            <option value="freshman">Freshman</option>
+            <option value="sophomore">Sophomore</option>
+            <option value="junior">Junior</option>
+            <option value="senior">Senior</option>
+            <option value="graduate">Graduate</option>
+        </select>
+
+        <label for="major">Major</label>
+        <input type="text" id="major" name="major" required>
+
+        <button type="submit" class="register-button">Register</button>
     </form>
 </div>

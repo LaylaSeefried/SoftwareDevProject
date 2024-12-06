@@ -1,0 +1,42 @@
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-image">
+        <h1>{{user.username}}</h1>
+    </div>
+
+    <div class="profile-info">
+        <h2>About {{user.username}}</h2>
+        <p>{{user.bio}}</p>
+    </div>
+
+    <!-- Centered Year and Major Section -->
+    <div class="profile-year-major">
+        <div class="profile-year">
+            <p>Year</p>
+            <h3>{{user.year}}</h3>
+        </div>
+        <div class="profile-major">
+            <p>Major</p>
+            <h3>{{user.major}}</h3>
+        </div>
+    </div>
+
+    <!-- Centered Courses Section -->
+    <div class="profile-courses">
+        <h4>Courses Enrolled</h4>
+        <ul>
+            {{#if user.courses}}
+            {{#each user.courses}}
+            <li><strong>{{course_name}}</strong> - {{credit_hours}} credit(s)</li>
+            {{/each}}
+            {{else}}
+            <li>No courses enrolled yet.</li>
+            {{/if}}
+        </ul>
+    </div>
+
+    <div class="contact-info">
+        <h2>Contact Info</h2>
+        <p>Email: {{user.email}}</p> <!-- Display the email -->
+    </div>
+</div>

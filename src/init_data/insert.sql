@@ -27,18 +27,18 @@ VALUES
 
 
 -- Inserting sample data into users table with bios, year, and major
-INSERT INTO users (username, password, bio, year, major)
+INSERT INTO users (username, password, bio, year, major, email)
 VALUES
-  ('johndoe', 'password1', 'A computer science enthusiast who loves algorithms and data structures.', 'junior', 'Computer Science'),
-  ('janedoe', 'password2', 'Aspiring software engineer with a passion for artificial intelligence.', 'senior', 'Software Engineering'),
-  ('alice', 'password3', 'Web developer focusing on front-end technologies and user experience.', 'sophomore', 'Information Technology'),
-  ('bob', 'password4', 'Cybersecurity specialist with a love for cryptography.', 'graduate', 'Cybersecurity'),
-  ('charlie', 'password5', 'Database administrator skilled in SQL and data modeling.', 'junior', 'Data Science'),
-  ('david', 'password6', 'Back-end developer passionate about API design and server architecture.', 'freshman', 'Computer Engineering'),
-  ('eve', 'password7', 'Machine learning enthusiast currently working on NLP projects.', 'senior', 'Artificial Intelligence'),
-  ('frank', 'password8', 'Software engineering student exploring full-stack development.', 'junior', 'Software Development'),
-  ('grace', 'password9', 'Data analyst interested in data visualization and big data technologies.', 'sophomore', 'Data Analytics'),
-  ('heidi', 'password10', 'Cloud computing specialist with experience in AWS and Azure.', 'graduate', 'Cloud Computing');
+  ('johndoe', 'password1', 'A computer science enthusiast who loves algorithms and data structures.', 'junior', 'Computer Science', 'johndoe@example.com'),
+  ('janedoe', 'password2', 'Aspiring software engineer with a passion for artificial intelligence.', 'senior', 'Software Engineering', 'janedoe@example.com'),
+  ('alice', 'password3', 'Web developer focusing on front-end technologies and user experience.', 'sophomore', 'Information Technology', 'alice@example.com'),
+  ('bob', 'password4', 'Cybersecurity specialist with a love for cryptography.', 'graduate', 'Cybersecurity', 'bob@example.com'),
+  ('charlie', 'password5', 'Database administrator skilled in SQL and data modeling.', 'junior', 'Data Science', 'charlie@example.com'),
+  ('david', 'password6', 'Back-end developer passionate about API design and server architecture.', 'freshman', 'Computer Engineering', 'david@example.com'),
+  ('eve', 'password7', 'Machine learning enthusiast currently working on NLP projects.', 'senior', 'Artificial Intelligence', 'eve@example.com'),
+  ('frank', 'password8', 'Software engineering student exploring full-stack development.', 'junior', 'Software Development', 'frank@example.com'),
+  ('grace', 'password9', 'Data analyst interested in data visualization and big data technologies.', 'sophomore', 'Data Analytics', 'grace@example.com'),
+  ('heidi', 'password10', 'Cloud computing specialist with experience in AWS and Azure.', 'graduate', 'Cloud Computing', 'heidi@example.com');
 
 
 -- Enrolling students in courses in student_courses table
