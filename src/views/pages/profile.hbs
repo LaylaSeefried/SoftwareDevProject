@@ -1,141 +1,127 @@
 <div class="profile-container">
     <div class="profile-header">
         <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-image">
-        <h1 id="profileNameDisplay">First name, Last Name</h1>
+        <h1 id="profileNameDisplay">{{username}}</h1>
     </div>
 
     <div class="profile-info">
         <h2>About Me</h2>
-        <p id="profileAboutDisplay">Hi! I'm Jane, a passionate learner and a member of the study circle. I love
-            exploring new subjects and collaborating with others to gain deeper insights.</p>
+        <p id="profileAboutDisplay">{{about}}</p>
     </div>
 
-    <div class="profile-stats">
-        <div class="stat">
+    <!-- Centered Year and Major Section -->
+    <div class="profile-year-major">
+        <div class="profile-year">
             <p>Year</p>
-            <h3 id="profileYearDisplay">--</h3>
+            <h3 id="profileYearDisplay">{{year}}</h3>
         </div>
-        <div class="stat">
+        <div class="profile-major">
             <p>Major</p>
-            <h3 id="profileMajorDisplay">--</h3>
-        </div>
-        <div class="stat">
-            <p>Courses</p>
-            <ul id="profileCoursesDisplay">
-                {{#if courses}}
-                {{#each courses}}
-                <li><strong>{{course_name}}</strong> - {{credit_hours}} credit(s)</li>
-                {{/each}}
-                {{else}}
-                <li>No courses enrolled yet.</li>
-                {{/if}}
-            </ul>
+            <h3 id="profileMajorDisplay">{{major}}</h3>
         </div>
     </div>
+
+    <!-- Centered Courses Section -->
+    <div class="profile-courses">
+        <h4>Courses Enrolled</h4>
+        <ul id="profileCoursesDisplay">
+            {{#if courses}}
+            {{#each courses}}
+            <li><strong>{{course_name}}</strong> - {{credit_hours}} credit(s)</li>
+            {{/each}}
+            {{else}}
+            <li>No courses enrolled yet.</li>
+            {{/if}}
+        </ul>
+    </div>
+
     <!-- Contact Info Section -->
     <div class="contact-info">
-        <h2>Let's Get in Touch!</h2>
-        <p>Email: <span id="profileEmailDisplay">--</span></p>
-        <p>Phone: <span id="profilePhoneDisplay">--</span></p>
+        <h2>Add your contact info!</h2>
+        <p>Email: <span id="profileEmailDisplay">{{email}}</span></p>
     </div>
 
     <!-- Edit Profile Button -->
     <button class="edit-button" onclick="toggleEditForm()">Edit Profile</button>
 
     <!-- Edit Profile Form -->
-    <div class="edit-form" id="editForm">
+    <div class="edit-form" id="editForm" style="display:none;">
         <h3>Edit Profile Information</h3>
-        <form onsubmit="saveChanges(event)">
+        <form id="profileForm">
             <div class="form-group">
                 <label for="profileName">Name</label>
-                <input type="text" class="form-control" id="profileName" placeholder="Enter your name" value="">
+                <input type="text" class="form-control" id="profileName" placeholder="Enter your name"
+                    value="{{username}}">
             </div>
             <div class="form-group">
                 <label for="profileAbout">About Me</label>
-                <textarea class="form-control" id="profileAbout" rows="3"></textarea>
+                <textarea class="form-control" id="profileAbout" rows="3">{{about}}</textarea>
             </div>
             <div class="form-group">
                 <label for="profileYear">Year</label>
-                <input type="text" class="form-control" id="profileYear" placeholder="Enter your year">
+                <input type="text" class="form-control" id="profileYear" placeholder="Enter your year" value="{{year}}">
             </div>
             <div class="form-group">
                 <label for="profileMajor">Major</label>
-                <input type="text" class="form-control" id="profileMajor" placeholder="Enter your major">
-            </div>
-            <div class="form-group">
-                <label for="profileCourses">Courses (comma-separated)</label>
-                <input type="text" class="form-control" id="profileCourses" placeholder="Enter your courses">
+                <input type="text" class="form-control" id="profileMajor" placeholder="Enter your major"
+                    value="{{major}}">
             </div>
             <div class="form-group">
                 <label for="profileEmail">Email</label>
-                <input type="email" class="form-control" id="profileEmail" placeholder="Enter your email" required>
+                <input type="email" class="form-control" id="profileEmail" placeholder="Enter your email"
+                    value="{{email}}" required>
             </div>
             <div class="form-group">
-                <label for="profilePhone">Phone (Optional)</label>
-                <input type="tel" class="form-control" id="profilePhone" placeholder="Enter your phone number">
+                <button type="button" class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
             </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     </div>
 </div>
 
+
 <script>
-    window.onload = function () {
-        if (localStorage.getItem('profileName')) {
-            document.getElementById('profileNameDisplay').textContent = localStorage.getItem('profileName');
-            document.getElementById('profileAboutDisplay').textContent = localStorage.getItem('profileAbout');
-            document.getElementById('profileYearDisplay').textContent = localStorage.getItem('profileYear');
-            document.getElementById('profileMajorDisplay').textContent = localStorage.getItem('profileMajor');
-            document.getElementById('profileEmailDisplay').textContent = localStorage.getItem('profileEmail') || '--';
-            document.getElementById('profilePhoneDisplay').textContent = localStorage.getItem('profilePhone') || '--';
+    function toggleEditForm() {
+        const editForm = document.getElementById('editForm');
+        editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function saveChanges() {
+        const profileData = {
+            currentUsername: document.getElementById('profileNameDisplay').textContent, // Get the current username
+            newUsername: document.getElementById('profileName').value, // New username (if changed)
+            about: document.getElementById('profileAbout').value,
+            year: document.getElementById('profileYear').value,
+            major: document.getElementById('profileMajor').value,
+            email: document.getElementById('profileEmail').value,
+        };
+
+        try {
+            const response = await fetch('/api/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profileData),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+
+                // Update the UI with the updated profile data
+                document.getElementById('profileNameDisplay').textContent = result.username;
+                document.getElementById('profileAboutDisplay').textContent = result.bio;
+                document.getElementById('profileYearDisplay').textContent = result.year;
+                document.getElementById('profileMajorDisplay').textContent = result.major;
+                document.getElementById('profileEmailDisplay').textContent = result.email || '--';
+
+                toggleEditForm(); // Hide the form after saving
+            } else {
+                console.error('Failed to save changes:', await response.text());
+                alert('Failed to save changes. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error saving profile:', error);
+            alert('An error occurred. Please try again.');
         }
     }
 
 
-
-    function toggleEditForm() {
-        var editForm = document.getElementById('editForm');
-        editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function saveChanges(event) {
-        event.preventDefault(); // Prevents form from refreshing the page
-
-        // Retrieve values from form inputs
-        var name = document.getElementById('profileName').value;
-        var about = document.getElementById('profileAbout').value;
-        var year = document.getElementById('profileYear').value;
-        var major = document.getElementById('profileMajor').value;
-        var courses = document.getElementById('profileCourses').value;
-        var email = document.getElementById('profileEmail').value;
-        var phone = document.getElementById('profilePhone').value;
-
-        // Update the profile display with new values
-        document.getElementById('profileNameDisplay').textContent = name;
-        document.getElementById('profileAboutDisplay').textContent = about;
-        document.getElementById('profileYearDisplay').textContent = year;
-        document.getElementById('profileMajorDisplay').textContent = major;
-        document.getElementById('profileEmailDisplay').textContent = email;
-        document.getElementById('profilePhoneDisplay').textContent = phone;
-
-        const coursesList = document.getElementById('profileCoursesDisplay');
-        coursesList.innerHTML = '';
-        courses.split(',').forEach(course => {
-            const li = document.createElement('li');
-            li.textContent = course.trim();
-            coursesList.appendChild(li);
-        });
-
-        // Store values in localStorage to persist across page reloads
-        localStorage.setItem('profileName', name);
-        localStorage.setItem('profileAbout', about);
-        localStorage.setItem('profileYear', year);
-        localStorage.setItem('profileMajor', major);
-        localStorage.setItem('profileCourses', courses);
-        localStorage.setItem('profileEmail', email);
-        localStorage.setItem('profilePhone', phone);
-
-        // Hide the edit form after saving
-        toggleEditForm();
-    }
 </script>

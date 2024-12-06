@@ -97,19 +97,22 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    const hash = await bcrypt.hash(req.body.password, 10);
-    const username = req.body.username;
-    const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
+    const { username, password, bio, year, major, email } = req.body;
 
-    db.one(query, [username, hash])
-        .then(data => {
-            res.redirect('/login');
-            console.log("Registered User with Password: ", data);
-        })
-        .catch(err => {
-            console.log(err);
-            res.redirect('/register');
-        });
+    try {
+        const hash = await bcrypt.hash(password, 10);
+        const query = `
+            INSERT INTO users (username, password, bio, year, major, email)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *;
+        `;
+
+        await db.one(query, [username, hash, bio, year, major, email]); // Include 'email' in the array
+        res.redirect('/login');
+    } catch (err) {
+        console.error('Error registering user:', err);
+        res.redirect('/register');
+    }
 });
 
 app.post('/login', async (req, res) => {
@@ -169,36 +172,111 @@ app.get('/course', auth, (req, res) => {
     res.render('pages/course', {});
 });
 
+app.get('/logout', (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Failed to log out');
+        }
+
+        // Redirect to the login page or send a success message
+        res.redirect('/login'); // Redirect to login page after successful logout
+    });
+});
+
+
 app.get('/profile', auth, async (req, res) => {
     const username = req.session.user;
 
+    if (!username) {
+        return res.status(400).send('User not logged in');
+    }
+
     try {
-        // Query to fetch courses the user is enrolled in
-        const query = `
-            SELECT c.course_id, c.course_name, c.credit_hours
+        // Fetch user details
+        const userQuery = `
+            SELECT username, bio, year, major, email
+            FROM users
+            WHERE username = $1
+        `;
+        const user = await db.oneOrNone(userQuery, [username]);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Fetch user courses
+        const coursesQuery = `
+            SELECT c.course_name, c.credit_hours
             FROM student_courses sc
             JOIN courses c ON sc.course_id = c.course_id
             WHERE sc.username = $1
         `;
+        const courses = await db.any(coursesQuery, [username]);
 
-        const courses = await db.any(query, [username]);
-
-        // Render profile page with courses
+        // Render the profile page with user and courses data
         res.render('pages/profile', {
-            username: username,
-            courses: courses, // Pass the courses to the template
+            username: user.username || '',
+            bio: user.bio || 'No bio available.',
+            year: user.year || 'Not specified.',
+            major: user.major || 'Not specified.',
+            email: user.email || 'No email provided.',
+            courses: courses,
         });
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error('Error loading profile:', error);
         res.status(500).send('Server error');
     }
 });
 
 
-app.get('/logout', (req, res) => {
-    req.session.destroy(); // Destroy the session
-    res.render('pages/logout', {message: "Logged out successfully"});
+app.post('/api/profile', auth, async (req, res) => {
+    const { currentUsername, newUsername, about, year, major, email } = req.body;
+
+    if (!currentUsername) {
+        return res.status(400).json({ error: 'Current username is required' });
+    }
+
+    try {
+        const dbTransaction = async t => {
+            // Update `username` in related tables first
+            if (newUsername && newUsername !== currentUsername) {
+                const updateRelatedTablesQuery = `
+                    UPDATE student_courses
+                    SET username = $1
+                    WHERE username = $2
+                `;
+                await t.none(updateRelatedTablesQuery, [newUsername, currentUsername]);
+            }
+
+            // Update the `users` table
+            const updateUserQuery = `
+                UPDATE users
+                SET username = $1, bio = $2, year = $3, major = $4, email = $5
+                WHERE username = $6
+                RETURNING username, bio, year, major, email
+            `;
+            return t.one(updateUserQuery, [
+                newUsername || currentUsername, // Use newUsername if provided, otherwise keep currentUsername
+                about,
+                year,
+                major,
+                email,
+                currentUsername,
+            ]);
+        };
+
+        const updatedUser = await db.tx(dbTransaction);
+
+        res.json(updatedUser);
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({ error: 'Failed to update profile' });
+    }
 });
+
+
 
 // API Route for Class Search
 app.get('/api/class-search', async (req, res) => {
@@ -298,6 +376,46 @@ app.post('/courses/add', auth, async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+app.get('/users/:username', auth, async (req, res) => {
+    const username = req.params.username;
+
+    try {
+        // Fetch user details, including email
+        const userQuery = `
+            SELECT username, bio, year, major, email
+            FROM users
+            WHERE username = $1
+        `;
+        const user = await db.one(userQuery, [username]);
+
+        // Fetch the user's enrolled courses
+        const coursesQuery = `
+            SELECT c.course_name, c.credit_hours
+            FROM student_courses sc
+            JOIN courses c ON sc.course_id = c.course_id
+            WHERE sc.username = $1
+        `;
+        const courses = await db.any(coursesQuery, [username]);
+
+        // Render the view-profile template with all user details
+        res.render('pages/view-profile', {
+            user: {
+                username: user.username,
+                bio: user.bio,
+                year: user.year,
+                major: user.major,
+                email: user.email, // Include the email
+                courses: courses,
+            },
+        });
+    } catch (err) {
+        console.error('Error fetching user profile:', err);
+        res.status(404).send('User not found');
+    }
+});
+
+
 
 
 

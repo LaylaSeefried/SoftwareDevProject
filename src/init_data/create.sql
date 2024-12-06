@@ -4,7 +4,8 @@ CREATE TABLE users (
     password CHAR(60) NOT NULL,
     bio TEXT,
     year VARCHAR(10) CHECK (year IN ('freshman', 'sophomore', 'junior', 'senior', 'graduate')), -- Constraint to limit values
-    major VARCHAR(100)
+    major VARCHAR(100),
+    email VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS courses;

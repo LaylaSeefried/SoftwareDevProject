@@ -19,8 +19,9 @@
         <h2 class="section-title">Students Enrolled</h2>
         <ul class="students-list">
             {{#each students}}
-            <li>{{this}}</li>
+            <li><a href="/users/{{this}}">{{this}}</a></li>
             {{/each}}
         </ul>
+
     </section>
 </div>
