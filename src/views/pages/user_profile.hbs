@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - {{user.username}}</title>
+    <!-- Add Bootstrap CSS or your own styles here -->
+</head>
+<body>
+    <div class="container">
+        <h1>Profile: {{user.username}}</h1>
+        <div class="profile-info">
+            <p><strong>Name:</strong> {{user.username}}</p>
+            <p><strong>Major:</strong> {{user.major}}</p>
+            <p><strong>Interests:</strong> {{user.bio}}</p>
+            <p><strong>Year:</strong> {{user.year}}</p>
+            <p><strong>Email:</strong> {{user.email}}</p>
+        </div>
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+    </div>
+
+    <!-- Add Bootstrap JS or your own scripts here -->
+</body>
+</html>

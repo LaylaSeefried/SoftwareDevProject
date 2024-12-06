@@ -172,6 +172,19 @@ app.get('/course', auth, (req, res) => {
     res.render('pages/course', {});
 });
 
+app.get('/users_profile', (req, res) => {
+    const username = req.query.username;
+    // Fetch user details from the database based on the username
+    // Assuming you have a function to fetch user data
+    getUserProfile(username, (err, user) => {
+        if (err) {
+            return res.status(500).send('Error fetching user profile');
+        }
+        res.render('user_profile', { user: user });
+    });
+});
+
+
 app.get('/logout', (req, res) => {
     // Destroy the session
     req.session.destroy(err => {
